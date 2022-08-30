@@ -1,10 +1,6 @@
 <%- include("./partials/header") %>
   <h1>Compose</h1>
   <form class="item" action="/compose" method="post">
-    <!-- <input type="text" name="newItem">
-    <textarea name="" id="" cols="30" rows="10"></textarea>
-    <button type="submit" name="">Publish</button> -->
-
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
       <input type="text" class="form-control" id="title" name="newTitle">
@@ -13,7 +9,8 @@
       <label for="post" class="form-label">Post</label>
       <input type="text" class="form-control" id="post" name="newBody">
     </div>
+    <div class="mb-3">
     <button type="submit" class="btn btn-primary">Publish</button>
-
+  </div>  
   </form>
   <%- include("./partials/footer") %>
