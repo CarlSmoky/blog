@@ -30,6 +30,10 @@ app.get("/compose", (req, res) => {
   res.render("compose");
 })
 
+app.post("/compose", (req, res) => {
+  const inputText = req.body.newItem;
+  console.log(inputText);
+})
 
 
 
