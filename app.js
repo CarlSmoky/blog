@@ -17,7 +17,7 @@ app.use(express.static("public"));
 let posts = [];
 
 app.get("/", (req, res) => {
-  res.render("home", {homeStartingContent});
+  res.render("home", {homeStartingContent, posts});
 })
 
 app.get("/about", (req, res) => {
@@ -40,7 +40,6 @@ app.post("/compose", (req, res) => {
     body
   }
   posts = [...posts, post];
-  console.log(posts);
   res.redirect("/");
 })
 
