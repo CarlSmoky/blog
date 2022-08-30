@@ -46,12 +46,11 @@ app.post("/compose", (req, res) => {
 
 app.get("/posts/:brogTitle", (req, res) => {
   const lowercaseBrogTitle = _.toLower(req.params.brogTitle);
-  console.log(posts);
-  console.log(lowercaseBrogTitle);
   for (let i = 0; i < posts.length; i++) {
-    console.log(_.toLower(posts[i].title));
     if (_.toLower(posts[i].title) === lowercaseBrogTitle) {
-      console.log("herehere");
+      const displayTitle = posts[i].title;
+      const displayBody = posts[i].body;
+      res.render("post", {displayTitle, displayBody})
     }
   }
 })
