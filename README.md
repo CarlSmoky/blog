@@ -3,4 +3,4 @@ This is a Blog app using Node.js, ejs, lodash and Bootstrap.
 
 ## Final Product
 
-!["For Desktop"]()
+!["For Desktop"](https://github.com/CarlSmoky/blog/blob/main/docs/blog.png?raw=true)
