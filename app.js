@@ -48,7 +48,7 @@ app.get("/compose", (req, res) => {
 })
 
 app.post("/compose", (req, res) => {
-  const title = req.body.newTitle;
+  const title = _.toLower(req.body.newTitle);
   const body = req.body.newBody;
   const post = new Post({
     title: title,
@@ -61,22 +61,16 @@ app.post("/compose", (req, res) => {
   })
 })
 
-app.get("/posts/:brogTitle", (req, res) => {
-  const lowercaseBrogTitle = _.toLower(req.params.brogTitle);
-  for (let i = 0; i < posts.length; i++) {
-    if (_.toLower(posts[i].title) === lowercaseBrogTitle) {
-      const displayTitle = posts[i].title;
-      const displayBody = posts[i].body;
+app.get("/posts/:postID", (req, res) => {
+  const postId = req.params.postID;
+  Post.findOne({_id: postId}, (err, result) => {
+    if (!err) {
+      const displayTitle = result.title;
+      const displayBody = result.content;
       res.render("post", { displayTitle, displayBody })
     }
-  }
-})
-
-
-
-
-
-
+  })
+});
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");

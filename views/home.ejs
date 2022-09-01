@@ -12,7 +12,7 @@
       const displayContent = e.content.length < length ? e.body : e.content.substring(0, length) + "..." %>
       <p>
         <%= displayContent%>
-        <a href="posts/<%=e.title %>">Read More</a>
+        <a href="posts/<%=e._id %>">Read More</a>
       </p>
       
       <%}) %>
