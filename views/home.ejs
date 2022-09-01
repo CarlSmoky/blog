@@ -9,7 +9,7 @@
       <h1><%= e.title %></h1>
       <%
       const title = e.title;
-      const displayContent = e.body.length < length ? e.body : e.body.substring(0, length) + "..." %>
+      const displayContent = e.content.length < length ? e.body : e.content.substring(0, length) + "..." %>
       <p>
         <%= displayContent%>
         <a href="posts/<%=e.title %>">Read More</a>

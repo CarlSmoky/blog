@@ -2,6 +2,7 @@
 import express from 'express';
 import bodyParser from "body-parser";
 import _ from 'lodash';
+import mongoose from 'mongoose';
 
 
 const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -12,21 +13,34 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+mongoose.connect('mongodb://localhost:27017/blogDB');
+
+const postSchema = {
+  title: String,
+  content: String
+};
+
+const Post = mongoose.model("post", postSchema);
 
 let posts = [];
 
 app.get("/", (req, res) => {
-  res.render("home", {homeStartingContent, posts});
+  Post.find({}, (err, posts) => {
+    if (!err) {
+      res.render("home", { homeStartingContent, posts });
+    }
+  })
 })
 
 app.get("/about", (req, res) => {
-  res.render("about", {aboutContent});
+  res.render("about", { aboutContent });
 })
 
 app.get("/contact", (req, res) => {
-  res.render("contact", {contactContent});
+  res.render("contact", { contactContent });
 })
 
 app.get("/compose", (req, res) => {
@@ -36,12 +50,15 @@ app.get("/compose", (req, res) => {
 app.post("/compose", (req, res) => {
   const title = req.body.newTitle;
   const body = req.body.newBody;
-  const post = {
-    title,
-    body
-  }
-  posts = [...posts, post];
-  res.redirect("/");
+  const post = new Post({
+    title: title,
+    content: body
+  });
+  post.save(err => {
+    if (!err) {
+      res.redirect("/");
+    }
+  })
 })
 
 app.get("/posts/:brogTitle", (req, res) => {
@@ -50,7 +67,7 @@ app.get("/posts/:brogTitle", (req, res) => {
     if (_.toLower(posts[i].title) === lowercaseBrogTitle) {
       const displayTitle = posts[i].title;
       const displayBody = posts[i].body;
-      res.render("post", {displayTitle, displayBody})
+      res.render("post", { displayTitle, displayBody })
     }
   }
 })
@@ -61,6 +78,6 @@ app.get("/posts/:brogTitle", (req, res) => {
 
 
 
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
